@@ -12,12 +12,28 @@
 numargs=$#
 i=1
 
+WORKSPACE=`pwd`
+EXTENSION=psqlplus
 HELP=false
 INSTALL=false
+UPDATE=false
+PSQLRC_FILE=
 
 
-echored() {
-	echo -e "\033[5;31m$*\033[0m"
+log() {
+  echo -e "[LOG]$*"
+}
+
+logred() {
+  echo -e "\033[32m[LOG]$*\033[0m"
+}
+
+logyellow() {
+  echo -e "\033[33m[LOG]$*\033[0m"
+}
+
+logblue() {
+  echo -e "\033[34m[LOG]$*\033[0m"
 }
 
 
@@ -26,11 +42,21 @@ while [ $i -le $numargs ]; do
   if [ $j = "-help" ] || [ $j = "-h" ]; then
     HELP=true
   fi
-  i=`expr $i + 1`
-  shift 1
+
   if [ $j = "install" ]; then
     INSTALL=true
   fi
+
+  if [ $j = "update" ]; then
+    UPDATE=true
+  fi
+
+  if [ $j = "-psqlrc" ]; then
+     PSQLRC_FILE=$2
+     shift 1
+     i=`expr $i + 1`  
+  fi
+
   i=`expr $i + 1`
   shift 1
 done
@@ -46,9 +72,34 @@ if [ $HELP = "true" ]; then
   exit
 fi
 
-if [ $INSTALL = "true" ]; then
-  echored  "installing"
-  
+if [ $UPDATE = "true" ]; then
+  echo  "start update"
+  # remove everything and 
+  exit
 fi
 
 
+
+if [ $INSTALL = "true" ]; then
+  logblue  "start installation"
+  if [ -z $PSQLRC_FILE ]; then
+    logyellow ".psqlrc is not specified, automatically set to \$HOME/.psqlrc"
+    PSQLRC_FILE=$HOME/.psqlrc
+  fi
+  # check foler
+  # wget src
+  # log version and release date
+
+
+  grep -q "^.*set pp.*--psqlplus" $PSQLRC_FILE
+  if [ $? -eq 0 ]; then
+    log "psqlplus has been installed, now clean up and reinstall"
+    sed -ni '/^\\set pp.*--psqlplus/d' ~/.psqlrc
+
+  else
+    echo -e "\\set pp '\\i `pwd`/$EXTENSION.psql'"
+  fi
+fi
+
+# \set dba '\\i /home/jackgo/projects/postgres_dba/start.psql'
+# echo "soo"|sed -e '/foo/{s/f/b/;q}' -e '/foo/!{q100}'
