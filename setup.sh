@@ -16,6 +16,7 @@ WORKSPACE=`pwd`
 EXTENSION=psqlplus
 MAIN_FILE=$EXTENSION.psql
 MAIN_FOLDER=sql
+
 HELP=false
 INSTALL=false
 UPDATE=false
@@ -84,8 +85,10 @@ fi
 
 if [ $INSTALL = "true" ]; then
   logblue  "start installation"
-  if [ -f $MAIN_FILE ] && [ -d MAIN_FOLDER ]; then
+  if [ -f $MAIN_FILE ] && [ -d $MAIN_FOLDER ]; then
   	logyellow "$MAIN_FILE file exists, start local installation"
+  	VERSION=`head -1 $MAIN_FILE`
+  	log "local version is ${VERSION##*-}"
   else
   	logyellow "$MAIN_FILE file dose not exist, start remote installation"
   	logyellow "please confirm that you can access github.com"
@@ -101,20 +104,18 @@ if [ $INSTALL = "true" ]; then
   	touch $PSQLRC_FILE
   fi
 
-
-
   # check foler
   # wget src
   # log version and release date
 
 
-  grep -q "^.*set pp.*--psqlplus" $PSQLRC_FILE
+  grep -q '^\\set pp.*psqlplus.psql' $PSQLRC_FILE
   if [ $? -eq 0 ]; then
     log "psqlplus has been installed, now clean up and reinstall"
-    sed -ni '/^\\set pp.*--psqlplus/d' ~/.psqlrc
-
+    sed -ni '/^\\set pp.*psqlplus.psql/d' $PSQLRC_FILE
+    echo "\\set pp '\\\\i `pwd`/$EXTENSION.psql'" >> $PSQLRC_FILE
   else
-    echo -e "\\set pp '\\i `pwd`/$EXTENSION.psql'"
+    echo "\\set pp '\\\\i `pwd`/$EXTENSION.psql'" >> $PSQLRC_FILE
   fi
 fi
 
