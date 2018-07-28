@@ -14,6 +14,7 @@ i=1
 
 WORKSPACE=`pwd`
 EXTENSION=psqlplus
+MAIN_FILE=$EXTENSION.psql
 HELP=false
 INSTALL=false
 UPDATE=false
@@ -82,10 +83,25 @@ fi
 
 if [ $INSTALL = "true" ]; then
   logblue  "start installation"
+  if [ -f $MAIN_FILE ]; then
+  	logyellow "$MAIN_FILE file exists, start local installation"
+  else
+  	logyellow "$MAIN_FILE file dose not exist, start remote installation"
+  	logyellow "please confirm that you can access github.com"
+  fi
+
   if [ -z $PSQLRC_FILE ]; then
     logyellow ".psqlrc is not specified, automatically set to \$HOME/.psqlrc"
     PSQLRC_FILE=$HOME/.psqlrc
   fi
+
+  if [ ! -f $PSQLRC_FILE ]; then
+  	logyellow ".psqlrc file does not exist, create one now"
+  	touch $PSQLRC_FILE
+  fi
+
+
+
   # check foler
   # wget src
   # log version and release date
@@ -102,4 +118,3 @@ if [ $INSTALL = "true" ]; then
 fi
 
 # \set dba '\\i /home/jackgo/projects/postgres_dba/start.psql'
-# echo "soo"|sed -e '/foo/{s/f/b/;q}' -e '/foo/!{q100}'
