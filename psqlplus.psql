@@ -1,4 +1,17 @@
 -- SQLPLUS-1.0.0
 -- jackgo73@outlook.com
 
-\echo aaaa
+
+\echo '        psqlplus menu       '
+\echo '-----+----------------+-----'
+\echo '  1. table                  '
+\echo '  2. index                  '
+\echo '  3. transaction            '
+\echo '  4. replication            '
+\echo '  5. connections            '
+\echo '-----+----------------+-----'
+\echo 'select from the menu [1 - 5]:'
+\echo
+\echo 'To quit hit q button'
+\prompt user_input
+
