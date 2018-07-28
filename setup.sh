@@ -15,6 +15,7 @@ i=1
 WORKSPACE=`pwd`
 EXTENSION=psqlplus
 MAIN_FILE=$EXTENSION.psql
+MAIN_FOLDER=sql
 HELP=false
 INSTALL=false
 UPDATE=false
@@ -83,7 +84,7 @@ fi
 
 if [ $INSTALL = "true" ]; then
   logblue  "start installation"
-  if [ -f $MAIN_FILE ]; then
+  if [ -f $MAIN_FILE ] && [ -d MAIN_FOLDER ]; then
   	logyellow "$MAIN_FILE file exists, start local installation"
   else
   	logyellow "$MAIN_FILE file dose not exist, start remote installation"
