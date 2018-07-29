@@ -1,17 +1,76 @@
 -- SQLPLUS-1.0.0
 -- jackgo73@outlook.com
 
-
-\echo '        psqlplus menu       '
-\echo '-----+----------------+-----'
-\echo '  1. table                  '
-\echo '  2. index                  '
-\echo '  3. transaction            '
-\echo '  4. replication            '
-\echo '  5. connections            '
-\echo '-----+----------------+-----'
-\echo 'select from the menu [1 - 5]:'
+\echo
+\echo 'PSQL+ MENU             '
+\echo
+\echo 'Table'
+\echo '  [01]     table bolat asdasdadda'
+\echo '  [02]     table size dsfdsfdsfdsfdfs'
+\echo
+\echo 'Transaction'
+\echo '  [10]     Index                  '
+\echo '  [11]     Transaction  asd asdd            '
+\echo '  [12]     Replication sdfdsf           '
+\echo '  [13]     Connections  dfgdfg          '
+\echo 
+\echo 'User-defined'
+\echo '  [20]     Index   '
+\echo
+\echo 'select from the menu [00 - 13]:'
 \echo
 \echo 'To quit hit q button'
-\prompt user_input
+\prompt raw_input
+\set input '\'' :raw_input '\''
+select :input::text='1' as user_input_1,
+       :input::text='2' as user_input_2,
+       :input::text='3' as user_input_3,
+       :input::text='4' as user_input_4,
+       :input::text='5' as user_input_5,
+       :input::text='q' as user_input_q
+\gset
 
+\if :user_input_q
+  \echo 'bye'
+\else
+  \echo 'go on'
+\endif
+
+
+
+
+
+
+
+
+-- \echo '        PSQL+  Menu         '
+-- \echo '-----+----------------+-----'
+-- \echo '  1. Table                  '
+-- \echo '  2. Index                  '
+-- \echo '  3. Transaction            '
+-- \echo '  4. Replication            '
+-- \echo '  5. Connections            '
+-- \echo '-----+----------------+-----'
+-- \echo 'select from the menu [1 - 5]:'
+-- \echo
+-- \echo 'To quit hit q button'
+
+
+
+-- \echo '+----------+---------------+----------+'
+-- \echo '|          |     Table     |          |'
+-- \echo '+----------+---------------+----------+'
+-- \echo '| 01.                                 |'
+-- \echo '| 02.                                 |'
+-- \echo '| 03.                                 |'
+-- \echo '| 04.                                 |'
+-- \echo '| 05.                                 |'
+-- \echo '+----------+---------------+----------+'
+-- \echo '|          |  Transaction  |          |'
+-- \echo '+----------+---------------+----------+'
+-- \echo '| 11.                                 |'
+-- \echo '| 12.                                 |'
+-- \echo '| 13.                                 |'
+-- \echo '| 14.                                 |'
+-- \echo '| 15.                                 |'
+-- \echo '+----------+---------------+----------+'
