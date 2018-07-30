@@ -14,7 +14,7 @@
 \echo '  [7]     Dead tuple(proportion of dead tuples exceeds 0.2)'
 \echo 'Index'
 \echo '  [9]     Index bloat estimation' 
-\echo '  [a]     Too many index(single table index number exceeds 4) ' 
+\echo '  [a]     Table with too many indexes(single table index number exceeds 4) ' 
 \echo '  [b]     Use fewer indexes'
 \echo 'Transaction'
 \echo 'Replication'
@@ -22,6 +22,8 @@
 \echo 'Statistics'
 \echo 'Network'
 \echo 'User-defined'
+\echo 'Parameter'
+\echo '  [z]     Key parameter values and configuration recommendations'
 -- \ir ./user.sql
 \echo
 \echo '\033[33mEnter the options in menu[1,2,3...], press q if you want quit\033[0m'
@@ -38,6 +40,7 @@ select
 :input::text='9' as user_input_9,
 :input::text='a' as user_input_a,
 :input::text='b' as user_input_b,
+:input::text='z' as user_input_z,
 :input::text='q' as user_input_q
 \gset
 
@@ -172,6 +175,25 @@ select
 
   \elif :user_input_b
     \ir ./src/use_fewer_indexes.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+
+  \elif :user_input_z
+    show max_connections
+    \gset
+    \echo 'Connections'
+    \echo '  max_connections :' :max_connections 'asd'
+
 
     \echo '\033[33many key to continue, q to quit\033[0m'
     \prompt raw_input
