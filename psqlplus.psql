@@ -5,35 +5,188 @@
 \echo 'PSQL+ MENU             '
 \echo
 \echo 'Table'
-\echo '  [01]     table bolat asdasdadda'
-\echo '  [02]     table size dsfdsfdsfdsfdfs'
-\echo
+\echo '  [1]     Table bloat estimation'
+\echo '  [2]     Unused table(excluding pg_catlog and toast tables)'
+\echo '  [3]     Hot table(top ten most frequently scanned tables)'
+\echo '  [4]     Cold table(top ten most infrequently scanned tables)'
+\echo '  [5]     Top seqscan object(top ten sequential scans)'
+\echo '  [6]     Top seqscan rows(top ten live rows fetched by sequential scans)'
+\echo '  [7]     Dead tuple(proportion of dead tuples exceeds 0.2)'
+\echo 'Index'
+\echo '  [9]     Index bloat estimation' 
+\echo '  [a]     Too many index(single table index number exceeds 4) ' 
+\echo '  [b]     Use fewer indexes'
 \echo 'Transaction'
-\echo '  [10]     Index                  '
-\echo '  [11]     Transaction  asd asdd            '
-\echo '  [12]     Replication sdfdsf           '
-\echo '  [13]     Connections  dfgdfg          '
-\echo 
+\echo 'Replication'
+\echo 'Connections'
+\echo 'Statistics'
+\echo 'Network'
 \echo 'User-defined'
-\echo '  [20]     Index   '
+-- \ir ./user.sql
 \echo
-\echo 'select from the menu [00 - 13]:'
-\echo
-\echo 'To quit hit q button'
+\echo '\033[33mEnter the options in menu[1,2,3...], press q if you want quit\033[0m'
 \prompt raw_input
 \set input '\'' :raw_input '\''
-select :input::text='1' as user_input_1,
-       :input::text='2' as user_input_2,
-       :input::text='3' as user_input_3,
-       :input::text='4' as user_input_4,
-       :input::text='5' as user_input_5,
-       :input::text='q' as user_input_q
+select 
+:input::text='1' as user_input_1,
+:input::text='2' as user_input_2,
+:input::text='3' as user_input_3,
+:input::text='4' as user_input_4,
+:input::text='5' as user_input_5,
+:input::text='6' as user_input_6,
+:input::text='7' as user_input_7,
+:input::text='9' as user_input_9,
+:input::text='a' as user_input_a,
+:input::text='b' as user_input_b,
+:input::text='q' as user_input_q
 \gset
 
 \if :user_input_q
   \echo 'bye'
 \else
-  \echo 'go on'
+  \if :user_input_1
+    \ir ./src/table_bloat.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_2
+    \ir ./src/unused_table.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_3
+    \ir ./src/hot_table.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_4
+    \ir ./src/cold_table.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_5
+    \ir ./src/top_seqscan.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+    
+  \elif :user_input_6
+    \ir ./src/top_seqscan_rows.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_7
+    \ir ./src/dead_tuple.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_9
+    \ir ./src/index_bloat.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_a
+    \ir ./src/too_many_index.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_b
+    \ir ./src/use_fewer_indexes.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \else
+    \ir ./psqlplus.psql
+  \endif
 \endif
 
 
