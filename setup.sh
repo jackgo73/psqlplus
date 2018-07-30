@@ -91,7 +91,9 @@ if [ $INSTALL = "true" ]; then
   	log "local version is ${VERSION##*-}"
   else
   	logyellow "$MAIN_FILE file dose not exist, start remote installation"
-  	logyellow "please confirm that you can access github.com"
+  	log "please confirm that you can access github.com"
+    log "fetching the latest version"
+    
   fi
 
   if [ -z $PSQLRC_FILE ]; then
