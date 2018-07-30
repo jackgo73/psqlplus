@@ -48,7 +48,7 @@ psql [option...] [dbname [username]]
 postgres=# :pp
 ```
 
-###Enter your options
+### Enter your option
 
 ```
 postgres=# :pp
