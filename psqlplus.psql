@@ -95,7 +95,8 @@ select
 :input::text='ep' as user_input_ep,
 :input::text='eh' as user_input_eh,
 :input::text='ei' as user_input_ei,
-:input::text='q' as user_input_q
+:input::text='q' as user_input_q,
+:input::text='z' as user_input_z
 \gset
 
 \if :user_input_q
@@ -547,7 +548,7 @@ select
   \elif :user_input_z
     show max_connections
     \gset
-    \echo 'Connections'
+    \echo 'developing.......'
     \echo '  max_connections :' :max_connections 'asd'
 
 
