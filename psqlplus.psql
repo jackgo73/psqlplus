@@ -22,6 +22,9 @@
 \echo '  [e]     User connection limit' 
 \echo '  [f]     Database connection limit' 
 \echo 'Transaction'
+\echo '  [g]     Long transaction' 
+\echo '  [h]     Long 2PC' 
+\echo '  [i]     Lock wait' 
 \echo 'Replication'
 \echo 'Statistics'
 \echo 'Network'
@@ -48,6 +51,9 @@ select
 :input::text='d' as user_input_d,
 :input::text='e' as user_input_e,
 :input::text='f' as user_input_f,
+:input::text='g' as user_input_g,
+:input::text='h' as user_input_h,
+:input::text='i' as user_input_i,
 :input::text='z' as user_input_z,
 :input::text='q' as user_input_q
 \gset
@@ -239,6 +245,48 @@ select
 
   \elif :user_input_f
     \ir ./src/database_connection_limit.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_g
+    \ir ./src/long_transaction.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_h
+    \ir ./src/long_2pc.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_i
+    \ir ./src/lock_wait.sql
 
     \echo '\033[33many key to continue, q to quit\033[0m'
     \prompt raw_input
