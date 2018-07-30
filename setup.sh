@@ -88,26 +88,33 @@ if [ $INSTALL = "true" ]; then
   logblue  "start installation"
   if [ -f $MAIN_FILE ] && [ -d $MAIN_FOLDER ]; then
   	logyellow "$MAIN_FILE and $MAIN_FOLDER folder exists, start local installation"
-  	VERSION=`head -1 $MAIN_FILE`
-  	log "local version is ${VERSION##*-}"
+  	version=`head -1 $MAIN_FILE`
+  	log "local version is ${version##*-}"
   else
   	logyellow "$MAIN_FILE or $MAIN_FOLDER folder dose not exist, start remote installation"
   	log "please confirm that you can access github.com"
     log "fetching the latest version"
-    VERSION=`curl $VERSION_URL 2>/dev/null`
-    log "remote version is ${VERSION}, start downloading package"
-    filename=$VERSION".tar.gz"
-    # todo curl failed!
-    echo $RELEASE_URL$filename
-    curl -O $RELEASE_URL$filename 2>/dev/null
-    if [ ! -f $filename ]; then
+    version=`curl $VERSION_URL 2>/dev/null`
+    log "remote version is ${version}, start downloading package"
+    
+    filename=$version".tar.gz"       # v0.1-alpha.tar.gz
+    wget -q $RELEASE_URL$filename 
+    tar xzvf $filename 2>&1 1>/dev/null
+    mv psqlplus-${version:1}/* ./    # psqlplus-0.1-alpha
+
+    rm -rf psqlplus-$version
+    rm $filename
+
+    if [ ! -f $MAIN_FILE ] || [ ! -d $MAIN_FOLDER ]; then
       logyellow "download failed, please visit https://github.com/mutex73/psqlplus/releases and install manually"
+      exit
     fi
-    log "download is successful,begins to decompress"
+    log "download successful, installation begins..."
   fi
 
+
   if [ ! -f $MAIN_FILE ] || [ ! -d $MAIN_FOLDER ]; then
-    logyellow "$MAIN_FILE or $MAIN_FOLDER folder does not exist, exit the installation"
+    logyellow "$MAIN_FILE or $MAIN_FOLDER folder does not exist, exit installation"
     exit
   fi
 
