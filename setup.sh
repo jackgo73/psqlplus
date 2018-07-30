@@ -40,6 +40,20 @@ logblue() {
   echo -e "\033[34m[LOG]$*\033[0m"
 }
 
+unameout="$(uname -s)"
+case "${unameout}" in
+  Linux*)     machine=Linux;;
+  Darwin*)    machine=Mac;;
+  CYGWIN*)    machine=Cygwin;;
+  MINGW*)     machine=MinGw;;
+  *)          machine="UNKNOWN:${unameout}"
+esac
+
+if [ ${machine} != "Linux" ] && [ ${machine} != "Mac" ]; then
+  echo "System is not supported"
+  exit
+fi
+
 
 while [ $i -le $numargs ]; do
   j=$1
@@ -87,12 +101,16 @@ fi
 if [ $INSTALL = "true" ]; then
   logblue  "start installation"
   if [ -f $MAIN_FILE ] && [ -d $MAIN_FOLDER ]; then
-  	logyellow "$MAIN_FILE and $MAIN_FOLDER folder exists, start local installation"
-  	version=`head -1 $MAIN_FILE`
-  	log "local version is ${version##*-}"
+    logyellow "$MAIN_FILE and $MAIN_FOLDER folder exists, start [local installation]"
+    version=`head -1 $MAIN_FILE`
+    log "local version is ${version##*-}"
   else
-  	logyellow "$MAIN_FILE or $MAIN_FOLDER folder dose not exist, start remote installation"
-  	log "please confirm that you can access github.com"
+    logyellow "$MAIN_FILE or $MAIN_FOLDER folder dose not exist, start [remote installation]"
+    # check tools
+    command -v wget 1>/dev/null 2>&1 || { logyellow "wget is not installed, exit installation"; exit 1; }
+    command -v tar 1>/dev/null 2>&1 || { logyellow "wget is not installed, exit installation"; exit 1; }
+
+    log "please confirm that you can access github.com"
     log "fetching the latest version"
     version=`curl $VERSION_URL 2>/dev/null`
     log "remote version is ${version}, start downloading package"
@@ -124,8 +142,8 @@ if [ $INSTALL = "true" ]; then
   fi
 
   if [ ! -f $PSQLRC_FILE ]; then
-  	logyellow ".psqlrc file does not exist, create one now"
-  	touch $PSQLRC_FILE
+    logyellow ".psqlrc file does not exist, create one now"
+    touch $PSQLRC_FILE
   fi
 
   # check foler
@@ -136,7 +154,11 @@ if [ $INSTALL = "true" ]; then
   grep -q '^\\set pp.*psqlplus.psql' $PSQLRC_FILE
   if [ $? -eq 0 ]; then
     log "psqlplus has been installed, now clean up and reinstall"
-    sed -ni '/^\\set pp.*psqlplus.psql/d' $PSQLRC_FILE
+    if [ ${machine} == "Linux" ]; then
+      sed -ni '/^\\set pp.*psqlplus.psql/d' $PSQLRC_FILE
+    elif [ ${machine} == "Mac" ]; then
+      sed -ni "" '/^\\set pp.*psqlplus.psql/d' $PSQLRC_FILE
+    fi
     echo "\\set pp '\\\\i `pwd`/$EXTENSION.psql'" >> $PSQLRC_FILE
   else
     echo "\\set pp '\\\\i `pwd`/$EXTENSION.psql'" >> $PSQLRC_FILE
