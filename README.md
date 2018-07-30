@@ -3,7 +3,7 @@
 
 `PsqlPlus` provides common operation and maintenance sql for the postgresql and supports user-defined options.
 
-`PsqlPlus` does not change any server files, and is implemented as an extension of the psql. It's easy to install and use.
+`PsqlPlus` does **not** change any server files, and is implemented as an extension of the psql. It's easy to install and use.
 
 The extension is compatible with:
 
