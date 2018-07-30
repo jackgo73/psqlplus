@@ -16,9 +16,13 @@
 \echo '  [9]     Index bloat estimation' 
 \echo '  [a]     Table with too many indexes(single table index number exceeds 4) ' 
 \echo '  [b]     Use fewer indexes'
+\echo 'Connections'
+\echo '  [c]     Current database activity' 
+\echo '  [d]     Remaining connections' 
+\echo '  [e]     User connection limit' 
+\echo '  [f]     Database connection limit' 
 \echo 'Transaction'
 \echo 'Replication'
-\echo 'Connections'
 \echo 'Statistics'
 \echo 'Network'
 \echo 'User-defined'
@@ -40,6 +44,10 @@ select
 :input::text='9' as user_input_9,
 :input::text='a' as user_input_a,
 :input::text='b' as user_input_b,
+:input::text='c' as user_input_c,
+:input::text='d' as user_input_d,
+:input::text='e' as user_input_e,
+:input::text='f' as user_input_f,
 :input::text='z' as user_input_z,
 :input::text='q' as user_input_q
 \gset
@@ -187,6 +195,61 @@ select
       \ir ./psqlplus.psql
     \endif
 
+  \elif :user_input_c
+    \ir ./src/current_database_activity.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_d
+    \ir ./src/remaining_connections.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_e
+    \ir ./src/user_connection_limit.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_f
+    \ir ./src/database_connection_limit.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
 
   \elif :user_input_z
     show max_connections
