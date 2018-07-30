@@ -1,6 +1,8 @@
 -- SQLPLUS-1.0.0
 -- jackgo73@outlook.com
 
+
+
 \echo
 \echo 'PSQL+ MENU             '
 \echo
@@ -25,15 +27,38 @@
 \echo '  [g]     Long transaction' 
 \echo '  [h]     Long 2PC' 
 \echo '  [i]     Lock wait' 
+\echo 'Space'
+\echo '  [j]     Tablespace size' 
+\echo '  [k]     Database size' 
+\echo '  [l]     Top 10 size object' 
+\echo '  [sm]    Disk free space'
+\echo 'Performance'
+\echo '  [n]     TOP 5 SQL(base on total_cpu_time, need pg_stat_statements)'
+\echo '  [o]     Database statistics'
+\echo '  [p]     Bgwriter statistics'
 \echo 'Replication'
-\echo 'Statistics'
-\echo 'Network'
-\echo 'User-defined'
+\echo '  [r]     Archive mode'
+\echo '  [s]     Archive statistics'
+\echo '  [t]     Replication statistics'
+\echo '  [u]     Replication slots'
 \echo 'Parameter'
 \echo '  [z]     Key parameter values and configuration recommendations'
+\echo 
+\echo 'Convenient function'
+\echo '  [x]     Expanded formatting mode, same as \\x'
+\echo '  [ep]    Edit postgresql.conf'
+\echo '  [eh]    Edit pg_hba.conf'
+\echo '  [ei]    Edit pg_ident.conf'
 -- \ir ./user.sql
 \echo
 \echo '\033[33mEnter the options in menu[1,2,3...], press q if you want quit\033[0m'
+--
+select 'pg_stat_statements' not in (select extname from pg_extension) as nopgss
+\gset
+\if :nopgss
+  \echo '\033[33m(pg_stat_statements is not installed.[n] cannot be used)\033[0m'
+\endif
+
 \prompt raw_input
 \set input '\'' :raw_input '\''
 select 
@@ -54,7 +79,22 @@ select
 :input::text='g' as user_input_g,
 :input::text='h' as user_input_h,
 :input::text='i' as user_input_i,
-:input::text='z' as user_input_z,
+:input::text='j' as user_input_j,
+:input::text='k' as user_input_k,
+:input::text='l' as user_input_l,
+:input::text='k' as user_input_k,
+:input::text='sm' as user_input_sm,
+:input::text='n' as user_input_n,
+:input::text='o' as user_input_o,
+:input::text='p' as user_input_p,
+:input::text='r' as user_input_r,
+:input::text='s' as user_input_s,
+:input::text='t' as user_input_t,
+:input::text='u' as user_input_u,
+:input::text='x' as user_input_x,
+:input::text='ep' as user_input_ep,
+:input::text='eh' as user_input_eh,
+:input::text='ei' as user_input_ei,
 :input::text='q' as user_input_q
 \gset
 
@@ -287,6 +327,211 @@ select
 
   \elif :user_input_i
     \ir ./src/lock_wait.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_j
+    \ir ./src/tablespace_size.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_k
+    \ir ./src/database_size.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_l
+    \ir ./src/top_size.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_sm
+    \! df -m
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_n
+    \ir ./src/top_5_sql.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_o
+    \ir ./src/database_statistics.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_p
+    \ir ./src/bgwriter_statistics.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+  \elif :user_input_r
+    \ir ./src/archive_mode.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_s
+    \ir ./src/archive_statistics.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_t
+    \ir ./src/replication_statistics.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_u
+    \ir ./src/replication_slots.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_x
+    \x
+    \ir ./psqlplus.psql
+
+  \elif :user_input_ep
+    SHOW data_directory
+    \gset
+    \e :data_directory/postgresql.conf
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_eh
+    SHOW data_directory
+    \gset
+    \e :data_directory/pg_hba.conf
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_ei
+    SHOW data_directory
+    \gset
+    \e :data_directory/pg_ident.conf
 
     \echo '\033[33many key to continue, q to quit\033[0m'
     \prompt raw_input
