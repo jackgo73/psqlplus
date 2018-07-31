@@ -10,7 +10,6 @@
 \echo '  [1]     Table bloat estimation'
 \echo '  [2]     Unused table(excluding pg_catlog and toast tables)'
 \echo '  [3]     Hot table(top ten most frequently scanned tables)'
-\echo '  [4]     Cold table(top ten most infrequently scanned tables)'
 \echo '  [5]     Top seqscan object(top ten sequential scans)'
 \echo '  [6]     Top seqscan rows(top ten live rows fetched by sequential scans)'
 \echo '  [7]     Dead tuple(proportion of dead tuples exceeds 0.2)'
@@ -18,6 +17,7 @@
 \echo '  [9]     Index bloat estimation' 
 \echo '  [a]     Table with too many indexes(single table index number exceeds 4) ' 
 \echo '  [b]     Use fewer indexes'
+\echo '  [w]     Unused index(excluding pg_catlog and toast tables)'
 \echo 'Connections'
 \echo '  [c]     Current database activity' 
 \echo '  [d]     Remaining connections' 
@@ -69,7 +69,6 @@ select
 :input::text='1' as user_input_1,
 :input::text='2' as user_input_2,
 :input::text='3' as user_input_3,
-:input::text='4' as user_input_4,
 :input::text='5' as user_input_5,
 :input::text='6' as user_input_6,
 :input::text='7' as user_input_7,
@@ -98,6 +97,7 @@ select
 :input::text='s' as user_input_s,
 :input::text='t' as user_input_t,
 :input::text='u' as user_input_u,
+:input::text='w' as user_input_w,
 :input::text='x' as user_input_x,
 :input::text='v' as user_input_v,
 :input::text='ep' as user_input_ep,
@@ -140,20 +140,6 @@ select
 
   \elif :user_input_3
     \ir ./src/hot_table.sql
-
-    \echo '\033[33many key to continue, q to quit\033[0m'
-    \prompt raw_input
-    \set input '\'' :raw_input '\''
-    select :input::text='q' as user_input_q
-    \gset
-    \if :user_input_q
-      \echo 'bye'
-    \else
-      \ir ./psqlplus.psql
-    \endif
-
-  \elif :user_input_4
-    \ir ./src/cold_table.sql
 
     \echo '\033[33many key to continue, q to quit\033[0m'
     \prompt raw_input
@@ -224,6 +210,20 @@ select
 
   \elif :user_input_a
     \ir ./src/too_many_index.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_w
+    \ir ./src/unused_index.sql
 
     \echo '\033[33many key to continue, q to quit\033[0m'
     \prompt raw_input
