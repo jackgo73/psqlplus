@@ -57,7 +57,7 @@ fi
 
 while [ $i -le $numargs ]; do
   j=$1
-  if [ $j = "-help" ] || [ $j = "-h" ]; then
+  if [ $j = "--help" ] || [ $j = "-h" ]; then
     HELP=true
   fi
 
@@ -69,7 +69,7 @@ while [ $i -le $numargs ]; do
     UPDATE=true
   fi
 
-  if [ $j = "-psqlrc" ]; then
+  if [ $j = "--psqlrc" ] || [ $j = "-r" ]; then
      PSQLRC_FILE=$2
      shift 1
      i=`expr $i + 1`  
@@ -84,9 +84,21 @@ if [ $numargs -eq 0 ]; then
 fi
 
 if [ $HELP = "true" ]; then
-  echo  "help me... todo"
+  echo  "Usage:"
+  echo  "./setup.sh [OPTION] COMMAND"
+  echo  
+  echo  "Command:"
+  echo  "  install       start installation"
+  echo  "  update        start upgrading"
   echo
-  echo  "help me... todo"
+  echo  "Options:"
+  echo  "  -r, --psqlrc  location of .psqlrc"
+  echo  "  -h, -help     show this help, then exit"  
+  echo 
+  echo  "Example:"
+  echo  "  ./setup install"
+  echo  "  ./setup -r ~/.psqlrc"
+  echo  "  ./setup update"
   exit
 fi
 
@@ -103,7 +115,7 @@ if [ $INSTALL = "true" ]; then
   if [ -f $MAIN_FILE ] && [ -d $MAIN_FOLDER ]; then
     logyellow "$MAIN_FILE and $MAIN_FOLDER folder exists, start [local installation]"
     version=`head -1 $MAIN_FILE`
-    log "local version is ${version##*-}"
+    log "system: $machine, local version: ${version##*-}"
   else
     logyellow "$MAIN_FILE or $MAIN_FOLDER folder dose not exist, start [remote installation]"
     # check tools
@@ -113,7 +125,7 @@ if [ $INSTALL = "true" ]; then
     log "please confirm that you can access github.com"
     log "fetching the latest version"
     version=`curl $VERSION_URL 2>/dev/null`
-    log "remote version is ${version}, start downloading package"
+    log "system: $machine, remote version: ${version}, start downloading package"
     
     filename=$version".tar.gz"       # v0.1-alpha.tar.gz
     wget -q $RELEASE_URL$filename 

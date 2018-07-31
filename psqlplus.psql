@@ -1,4 +1,4 @@
--- SQLPLUS-1.0.0
+-- SQLPLUS-1.0.1
 -- jackgo73@outlook.com
 
 
@@ -32,11 +32,15 @@
 \echo '  [k]     Database size' 
 \echo '  [l]     Top 10 size object' 
 \echo '  [sm]    Disk free space'
-\echo 'Performance'
-\echo '  [n]     TOP 5 SQL(base on total_cpu_time, need pg_stat_statements)'
+\echo 'Performance([s*]need pg_stat_statements)'
+\echo '  [sn]    TOP 5 SQL(base on total_time)'
+\echo '  [so]    TOP 5 IO SQL(base on blk_read_time+blk_write_time)'
+\echo '  [sp]    TOP 5 SHARED BUFFER SQL(base on shared_blks_hit+shared_blks_dirtied)'
+\echo '  [sr]    TOP 5 TEMP BLKS SQL(base on temp_blks_written)'
 \echo '  [o]     Database statistics'
 \echo '  [p]     Bgwriter statistics'
 \echo 'Replication'
+\echo '  [v]     Is in recovery?'
 \echo '  [r]     Archive mode'
 \echo '  [s]     Archive statistics'
 \echo '  [t]     Replication statistics'
@@ -84,7 +88,10 @@ select
 :input::text='l' as user_input_l,
 :input::text='k' as user_input_k,
 :input::text='sm' as user_input_sm,
-:input::text='n' as user_input_n,
+:input::text='sn' as user_input_sn,
+:input::text='so' as user_input_so,
+:input::text='sp' as user_input_sp,
+:input::text='sr' as user_input_sr,
 :input::text='o' as user_input_o,
 :input::text='p' as user_input_p,
 :input::text='r' as user_input_r,
@@ -92,6 +99,7 @@ select
 :input::text='t' as user_input_t,
 :input::text='u' as user_input_u,
 :input::text='x' as user_input_x,
+:input::text='v' as user_input_v,
 :input::text='ep' as user_input_ep,
 :input::text='eh' as user_input_eh,
 :input::text='ei' as user_input_ei,
@@ -396,8 +404,50 @@ select
       \ir ./psqlplus.psql
     \endif
 
-  \elif :user_input_n
+  \elif :user_input_sn
     \ir ./src/top_5_sql.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_so
+    \ir ./src/top_5_io_sql.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_sp
+    \ir ./src/top_5_shared_buffer_sql.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_sr
+    \ir ./src/top_5_temp_space_sql.sql
 
     \echo '\033[33many key to continue, q to quit\033[0m'
     \prompt raw_input
@@ -481,6 +531,20 @@ select
 
   \elif :user_input_u
     \ir ./src/replication_slots.sql
+
+    \echo '\033[33many key to continue, q to quit\033[0m'
+    \prompt raw_input
+    \set input '\'' :raw_input '\''
+    select :input::text='q' as user_input_q
+    \gset
+    \if :user_input_q
+      \echo 'bye'
+    \else
+      \ir ./psqlplus.psql
+    \endif
+
+  \elif :user_input_v
+    \ir ./src/is_in_recovery.sql
 
     \echo '\033[33many key to continue, q to quit\033[0m'
     \prompt raw_input
