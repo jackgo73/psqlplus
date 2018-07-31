@@ -104,15 +104,17 @@ fi
 
 if [ $UPDATE = "true" ]; then
   logblue  "Start upgrading"
-  rm $MAIN_FILE
-  rm -rf $MAIN_FOLDER
-  rm VERSION
+  rm $MAIN_FILE 1>/dev/null 2>&1
+  rm -rf $MAIN_FOLDER 1>/dev/null 2>&1
+  rm VERSION 1>/dev/null 2>&1
   version=`curl $VERSION_URL 2>/dev/null`
+  log "remote version: ${version}, start downloading package"
+  filename=$version".tar.gz"
   wget -q $RELEASE_URL$filename 
   tar xzvf $filename 2>&1 1>/dev/null
   mv psqlplus-${version:1}/* ./    # psqlplus-0.1-alpha
-  rm -rf psqlplus-$version
-  rm $filename
+  rm -rf psqlplus-$version 1>/dev/null 2>&1
+  rm $filename 1>/dev/null 2>&1
   if [ ! -f $MAIN_FILE ] || [ ! -d $MAIN_FOLDER ]; then
       logyellow "update failed, please visit https://github.com/mutex73/psqlplus"
       exit
@@ -145,8 +147,8 @@ if [ $INSTALL = "true" ]; then
     tar xzvf $filename 2>&1 1>/dev/null
     mv psqlplus-${version:1}/* ./    # psqlplus-0.1-alpha
 
-    rm -rf psqlplus-$version
-    rm $filename
+    rm -rf psqlplus-$version 1>/dev/null 2>&1
+    rm $filename 1>/dev/null 2>&1
 
     if [ ! -f $MAIN_FILE ] || [ ! -d $MAIN_FOLDER ]; then
       logyellow "download failed, please visit https://github.com/mutex73/psqlplus/releases and install manually"
