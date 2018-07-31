@@ -55,7 +55,7 @@
 \echo '  [ei]    Edit pg_ident.conf'
 -- \ir ./user.sql
 \echo
-\echo '\033[33mEnter the options in menu[1,2,3...], press q if you want quit\033[0m'
+\echo '\033[33mEnter the options in menu[1,a,sn...], press q if you want quit\033[0m'
 --
 select 'pg_stat_statements' not in (select extname from pg_extension) as nopgss
 \gset

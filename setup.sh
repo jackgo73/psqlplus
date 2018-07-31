@@ -172,8 +172,10 @@ if [ $INSTALL = "true" ]; then
       sed -ni "" '/^\\set pp.*psqlplus.psql/d' $PSQLRC_FILE
     fi
     echo "\\set pp '\\\\i `pwd`/$EXTENSION.psql'" >> $PSQLRC_FILE
+    logblue "installation is complete, start psql and input :pp"
   else
     echo "\\set pp '\\\\i `pwd`/$EXTENSION.psql'" >> $PSQLRC_FILE
+    logblue "installation is complete, start psql and input :pp"
   fi
 fi
 
