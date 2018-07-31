@@ -42,7 +42,7 @@ case "${unameout}" in
   *)          machine="UNKNOWN:${unameout}"
 esac
 
-if [ ${machine} != "Linux" ] && [ ${machine} != "Mac" ]; then
+if [ ${machine} != "Linux" ]; then
   echo "System is not supported"
   exit
 fi
