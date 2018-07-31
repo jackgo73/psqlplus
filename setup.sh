@@ -2,13 +2,6 @@
 # GaoMingjie - Aug 2018
 
 
-# check psql installed?
-
-# https://blog.csdn.net/wncnke/article/details/54847140
-
-# check psqlrc already include pp?
-
-
 numargs=$#
 i=1
 
@@ -192,5 +185,3 @@ if [ $INSTALL = "true" ]; then
     logblue "installation is complete, start psql and input :pp"
   fi
 fi
-
-# \set dba '\\i /home/jackgo/projects/postgres_dba/start.psql'
