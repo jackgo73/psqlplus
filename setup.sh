@@ -103,8 +103,21 @@ if [ $HELP = "true" ]; then
 fi
 
 if [ $UPDATE = "true" ]; then
-  echo  "start update"
-  # remove everything and 
+  logblue  "Start upgrading"
+  rm $MAIN_FILE
+  rm -rf $MAIN_FOLDER
+  rm VERSION
+  version=`curl $VERSION_URL 2>/dev/null`
+  wget -q $RELEASE_URL$filename 
+  tar xzvf $filename 2>&1 1>/dev/null
+  mv psqlplus-${version:1}/* ./    # psqlplus-0.1-alpha
+  rm -rf psqlplus-$version
+  rm $filename
+  if [ ! -f $MAIN_FILE ] || [ ! -d $MAIN_FOLDER ]; then
+      logyellow "update failed, please visit https://github.com/mutex73/psqlplus"
+      exit
+    fi
+    log "update successful, exit"
   exit
 fi
 
