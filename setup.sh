@@ -119,10 +119,9 @@ if [ $UPDATE = "true" ]; then
       logyellow "update failed, please visit https://github.com/mutex73/psqlplus"
       exit
     fi
-    log "update successful, exit"
+    logblue "update successful, exit"
   exit
 fi
-
 
 
 if [ $INSTALL = "true" ]; then

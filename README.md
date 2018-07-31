@@ -92,9 +92,11 @@ so
 
 ## How to update
 
+psqlplus automatically queries the latest version and download.
 
-
-
+```shell
+./setup.sh update
+```
 
 ## Feedback
 
