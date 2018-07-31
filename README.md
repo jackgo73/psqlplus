@@ -64,7 +64,7 @@ Enter the options in menu[1,2,3...], press q if you want quit
 
 ### Enter your option
 
-**for example, press 'so' to check out TOP 5 IO SQL **
+press 'so' to check out TOP 5 IO SQL
 
 ![](snapshot/snapshot1.png)
 
