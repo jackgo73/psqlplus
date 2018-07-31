@@ -1,9 +1,7 @@
 [![GitHub license](https://img.shields.io/badge/license-PostgreSQL-blue.svg)](https://raw.githubusercontent.com/postgrespro/pg_pathman/master/LICENSE)
 # PsqlPlus
 
-`PsqlPlus` provides common operation and maintenance sql for the postgresql and supports user-defined options.
-
-`PsqlPlus` does **not** change any server files, and is implemented as an extension of the psql. It's easy to install and use.
+`PsqlPlus` provides common operation and maintenance sql for the postgresql and supports user-defined options. PsqlPlus does **not** change any server files, is implemented as an extension of the psql. It's easy to install and use.
 
 SQL is collected at internet, most from [digoal's blog](https://github.com/digoal/blog).The first line of each src/*.sql indicates its source.
 
@@ -26,9 +24,8 @@ git clone git@github.com:mutex73/psqlplus.git
 cd psqlplus
 chmod u+x setup.sh 
 ./setup.sh install
+# ./setup -h see some help
 ```
-
-if your  PSQLRC 
 
 ### Remote installation
 
