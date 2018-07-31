@@ -5,7 +5,7 @@
 
 SQL is collected at internet, most from [digoal's blog](https://github.com/digoal/blog).The first line of each src/*.sql indicates its source.
 
-
+![](snapshot/snapshot.png)
 
 The extension is compatible with:
 
@@ -14,7 +14,11 @@ The extension is compatible with:
 
 ## Installation guide
 
+Remote installation is recommended
+
 ### Remote installation
+
+To install `psqlplus`, execute this in any directory:
 
 ```shell
 mkdir psqlplus && cd psqlplus
@@ -22,8 +26,6 @@ wget -q https://raw.githubusercontent.com/mutex73/psqlplus/master/setup.sh && sh
 ```
 
 ### Local installation
-
-To install `psqlplus`, execute this in any directory:
 
 ```shell
 git clone git@github.com:mutex73/psqlplus.git
@@ -64,6 +66,8 @@ Enter the options in menu[1,2,3...], press q if you want quit
 
 **for example, press 'so' to check out TOP 5 IO SQL **
 
+![](snapshot/snapshot1.png)
+
 ```
 Enter the options in menu[1,2,3...], press q if you want quit
 so
@@ -97,6 +101,13 @@ psqlplus automatically queries the latest version and download
 ```shell
 ./setup.sh update
 ```
+
+![](snapshot/snapshot3.png)
+
+## How to uninstall
+
+- delete `\set pp '\\i /home/pathto/psqlplus.psql'`in $HOME/.pslqrc file 
+- `rm -rf psqlplus`
 
 ## Feedback
 
