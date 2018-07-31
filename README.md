@@ -3,7 +3,7 @@
 
 `PsqlPlus` provides common operation and maintenance sql for the postgresql and supports user-defined options. PsqlPlus does **not** change any server files, is implemented as an extension of the psql. It's easy to install and use.
 
-SQL is collected at internet, most from [digoal's blog](https://github.com/digoal/blog).The first line of each src/*.sql indicates its source.
+SQL is collected from internet, most from [digoal's blog](https://github.com/digoal/blog).The first line of each src/*.sql indicates its source.
 
 ![](snapshot/snapshot.png)
 
