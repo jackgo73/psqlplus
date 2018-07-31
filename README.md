@@ -12,8 +12,14 @@ The extension is compatible with:
  * PostgreSQL 10+;
 
 
-
 ## Installation guide
+
+### Remote installation
+
+```shell
+mkdir psqlplus && cd psqlplus
+wget -q https://raw.githubusercontent.com/mutex73/psqlplus/master/setup.sh && sh setup.sh install
+```
 
 ### Local installation
 
@@ -25,12 +31,6 @@ cd psqlplus
 chmod u+x setup.sh 
 ./setup.sh install
 # ./setup -h see some help
-```
-
-### Remote installation
-
-```shell
-wget -q https://raw.githubusercontent.com/mutex73/psqlplus/master/setup.sh && sh setup.sh install
 ```
 
 ## Usage
@@ -92,7 +92,7 @@ so
 
 ## How to update
 
-psqlplus automatically queries the latest version and download.
+psqlplus automatically queries the latest version and download
 
 ```shell
 ./setup.sh update
