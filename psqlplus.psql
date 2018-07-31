@@ -57,11 +57,11 @@
 \echo
 \echo '\033[33mEnter the options in menu[1,a,sn...], press q if you want quit\033[0m'
 --
--- select 'pg_stat_statements' not in (select extname from pg_extension) as nopgss
--- \gset
--- \if :nopgss
---   \echo '\033[33m(pg_stat_statements is not installed.[n] cannot be used)\033[0m'
--- \endif
+select 'pg_stat_statements' not in (select extname from pg_extension) as nopgss
+\gset
+\if :nopgss
+  \echo '\033[33m(pg_stat_statements is not installed.[s*] cannot be used)\033[0m'
+\endif
 
 \prompt raw_input
 \set input '\'' :raw_input '\''
