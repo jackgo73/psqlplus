@@ -1,9 +1,9 @@
 [![GitHub license](https://img.shields.io/badge/license-PostgreSQL-blue.svg)](https://raw.githubusercontent.com/postgrespro/pg_pathman/master/LICENSE)
 # PsqlPlus
 
-`PsqlPlus` provides common operation and maintenance sql for the postgresql and supports user-defined options. PsqlPlus does **not** change any server files, is implemented as an extension of the psql. It's easy to install and use.
+`PsqlPlus` provides common operation and maintenance sql for the postgresql and supports user-defined options. PsqlPlus which does **not** change any server files, is implemented as an extension of the psql. It's easy to install and use.
 
-SQL is collected from internet, most from [digoal's blog](https://github.com/digoal/blog).The first line of each src/*.sql indicates its source.
+SQLs are collected from internet, most of which from [digoal's blog](https://github.com/digoal/blog). The first line of each src/*.sql indicates its source.
 
 ![](snapshot/snapshot.png)
 
@@ -14,11 +14,11 @@ The extension is compatible with:
 
 ## Installation guide
 
-Remote installation is recommended
+Remote installation is recommended.
 
 ### Remote installation
 
-To install `psqlplus`, execute this in any directory:
+To install `psqlplus`, execute the following commands in any directory:
 
 ```shell
 mkdir psqlplus && cd psqlplus
@@ -64,7 +64,7 @@ Enter the options in menu[1,2,3...], press q if you want quit
 
 ### Enter your option
 
-press 'so' to check out TOP 5 IO SQL
+Press 'so' to check out TOP 5 IO SQL.
 
 ![](snapshot/snapshot1.png)
 
@@ -92,11 +92,11 @@ so
 (5 rows)
 ```
 
-**press q if you want quit**
+**Tips: press q if you want to quit.**
 
 ## How to update
 
-psqlplus automatically queries the latest version and download
+psqlplus automatically queries the latest version and downloads if applicable.
 
 ```shell
 ./setup.sh update
