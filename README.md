@@ -113,6 +113,8 @@ psqlplus automatically queries the latest version and downloads if applicable.
 
 Do not hesitate to post your issues, questions and new ideas at the [issues](https://github.com/mutex73/psqlplus/issues) page.
 
+Everyone is welcome to contribute your SQL.
+
 ## Authors
 
 Gaomingjie <jackgo73(at)outlook.com> ?., China
