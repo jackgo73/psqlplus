@@ -90,7 +90,7 @@ if [ $HELP = "true" ]; then
   echo 
   echo  "Example:"
   echo  "  ./setup install"
-  echo  "  ./setup -r ~/.psqlrc"
+  echo  "  ./setup -r ~/.psqlrc install"
   echo  "  ./setup update"
   exit
 fi
@@ -164,11 +164,6 @@ if [ $INSTALL = "true" ]; then
     logyellow ".psqlrc file does not exist, create one now"
     touch $PSQLRC_FILE
   fi
-
-  # check foler
-  # wget src
-  # log version and release date
-
 
   grep -q '^\\set pp.*psqlplus.psql' $PSQLRC_FILE
   if [ $? -eq 0 ]; then
